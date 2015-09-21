@@ -1,0 +1,32 @@
+{
+  "name": "xx-user",
+  "version": "1.0.0",
+  "description": "User system for xerxes",
+  "main": "model.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "connect-redis": "^2.5.1",
+    "express-session": "^1.11.3",
+    "should": "^7.1.0",
+    "supertest": "^1.1.0",
+    "xerxes": "^0.0.9",
+    "xx-mongoose": "^1.0.4",
+    "xx-db": "^2.0.1",
+    "xx-server": "^1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.2"
+  },
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha test/test.js"
+  },
+  "keywords": [
+    "xerxes",
+    "user"
+  ],
+  "author": "Denis Stadniczuk",
+  "license": "ISC"
+}
