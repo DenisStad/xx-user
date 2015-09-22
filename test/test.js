@@ -20,11 +20,11 @@ App.configuration = {
 App.load('server/setup');
 App.load('server/validations');
 App.load('../sessions');
-App.load('server/start');
-App.load('../model', 'users');
-App.load('../endpoints', 'users');
+App.load('../model', 'user');
+App.load('../endpoints', 'user', 'users');
 App.load('db/convert', 'mongoose');
-App.load('mongoose/model', 'mongodb://localhost/xxuser');
+App.load('mongoose/connect', 'mongodb://localhost/xxuser');
+App.load('mongoose/model');
 App.load('server/start');
 
 var should = require('should');
@@ -35,7 +35,9 @@ var context = {};
 describe('user', function() {
 
   before(function(cb) {
-    App.models.user.Model.remove(cb);
+    App.models.user.delete({}, function(err) {
+      cb(err);
+    });
   });
 
   it('should not show session when not logged in', function(done) {
@@ -55,9 +57,8 @@ describe('user', function() {
     .expect(422, function(err, res) {
       if (err) return done(err);
 
-      res.body.should.have.property('error');
-      res.body.error.should.have.property('errors');
-      res.body.error.errors.passwordConfirm.should.equal('passwordConfirm is missing');
+      res.body.should.have.property('errors');
+      res.body.errors.passwordConfirm[0].should.equal('passwordConfirm is missing');
 
       done();
     });
@@ -70,10 +71,9 @@ describe('user', function() {
     .expect(200, function(err, res) {
       if (err) return done(err);
 
-      res.body.user.should.have.property("createdAt");
       res.body.user.name.should.equal('John');
       res.body.user.email.should.equal('email@example.com');
-      expect(res.body.user.passwordHash).to.not.exist();
+      res.body.user.hasOwnProperty('passwordHash').should.not.be.ok();
 
       context.user = res.body.user;
 
@@ -82,10 +82,9 @@ describe('user', function() {
       .expect(200, function(err, res) {
         if (err) return done(err);
 
-        res.body.user.should.have.property("createdAt");
         res.body.user.name.should.equal('John');
         res.body.user.email.should.equal('email@example.com');
-        expect(res.body.user.passwordHash).to.not.exist();
+        res.body.user.hasOwnProperty('passwordHash').should.not.be.ok();
 
         done();
       });
@@ -115,7 +114,7 @@ describe('user', function() {
     .expect(401, function(err, res) {
       if (err) return done(err);
 
-      res.body.error.message.should.equal('invalid combination of email and password');
+      res.body.message.should.equal('invalid combination of email and password');
 
       done();
     });
@@ -128,20 +127,18 @@ describe('user', function() {
     .expect(200, function(err, res) {
       if (err) return done(err);
 
-      res.body.user.should.have.property("createdAt");
       res.body.user.name.should.equal('John');
       res.body.user.email.should.equal('email@example.com');
-      expect(res.body.user.passwordHash).to.not.exist();
+      res.body.user.hasOwnProperty('passwordHash').should.not.be.ok();
 
       agent.get('/session/user')
       .set('Accept', 'application/json')
       .expect(200, function(err, res) {
         if (err) return done(err);
 
-        res.body.user.should.have.property("createdAt");
         res.body.user.name.should.equal('John');
         res.body.user.email.should.equal('email@example.com');
-        expect(res.body.user.passwordHash).to.not.exist();
+        res.body.user.hasOwnProperty('passwordHash').should.not.be.ok();
 
         done();
       });
@@ -154,7 +151,7 @@ describe('user', function() {
     .expect(404, function(err, res) {
       if (err) return done(err);
 
-      res.body.error.message.should.equal('user not found');
+      res.body.message.should.equal('user not found');
 
       done();
     });
@@ -166,10 +163,9 @@ describe('user', function() {
     .expect(200, function(err, res) {
       if (err) return done(err);
 
-      res.body.user.should.have.property("createdAt");
       res.body.user.name.should.equal('John');
       res.body.user.email.should.equal('email@example.com');
-      expect(res.body.user.passwordHash).to.not.exist();
+      res.body.user.hasOwnProperty('passwordHash').should.not.be.ok();
 
       done();
     });
@@ -182,10 +178,9 @@ describe('user', function() {
     .expect(200, function(err, res) {
       if (err) return done(err);
 
-      res.body.user.should.have.property("createdAt");
       res.body.user.name.should.equal('Jacob');
       res.body.user.email.should.equal('email@example.com');
-      expect(res.body.user.passwordHash).to.not.exist();
+      res.body.user.hasOwnProperty('passwordHash').should.not.be.ok();
 
       done();
     });

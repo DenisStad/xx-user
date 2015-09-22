@@ -18,7 +18,8 @@
     "xx-server": "^1.0.0"
   },
   "devDependencies": {
-    "mocha": "^2.3.2"
+    "mocha": "^2.3.2",
+    "xx-mongoose": "^1.0.7"
   },
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha test/test.js"

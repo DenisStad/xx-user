@@ -85,9 +85,9 @@ exports = module.exports = function(App, role, path) {
   });
 
   router.patch('/' + path + '/:' + role + '_id', router.describe({
-    description: 'update the ' + role
+    description: 'update the ' + role + '. This will update the logged in user no matter which id you pass'
   }), function(req, res, next) {
-    App.model.update(req[role], req.body, { readonly: false, private: false }, function(err, member) {
+    App.models[role].updateInstance(req[role], req.body.user, { readonly: false, private: false }, function(err, member) {
       if (err) return next(err);
       var reply = {};
       reply[role] = member;
