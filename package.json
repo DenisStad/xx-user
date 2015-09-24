@@ -1,11 +1,16 @@
 {
   "name": "xx-user",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "User system for xerxes",
   "author": "Denis Stadniczuk",
   "license": "ISC",
   "main": "model.js",
-  "files": [ "endpoints.js", "model.js", "sessions.js" ],
+  "files": [
+    "endpoints.js",
+    "model.js",
+    "sessions.js",
+    "session-endpoints.js"
+  ],
   "directories": {
     "test": "test"
   },
@@ -13,6 +18,7 @@
     "bcrypt": "^0.8.5",
     "connect-redis": "^2.5.1",
     "express-session": "^1.11.3",
+    "jsonwebtoken": "^5.0.5",
     "xerxes": "^0.0.9",
     "xx-db": "^2.0.1",
     "xx-server": "^1.0.0"

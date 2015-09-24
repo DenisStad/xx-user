@@ -22,6 +22,7 @@ App.load('server/validations');
 App.load('../sessions');
 App.load('../model', 'user');
 App.load('../endpoints', 'user', 'users');
+App.load('../session-endpoints', 'user');
 App.load('db/convert', 'mongoose');
 App.load('mongoose/connect', 'mongodb://localhost/xxuser');
 App.load('mongoose/model');
